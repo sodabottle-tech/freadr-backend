@@ -13,31 +13,39 @@ import org.hibernate.envers.Audited;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "otp")
+@Entity(name = "messages")
 @Data
 @NoArgsConstructor
 @Audited
-public class Otp {
+public class Message {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+	
+	@NotEmpty
+	private String sender;
+	
+	@NotEmpty
+	private String receiver;
+	
+	@NotEmpty
+	private String text;
+	
+	private String template;
 
-    @NotEmpty(message = "{otp.notempty}")
-    private String otp;
+	private Date createdAt = new Date();
+	
+	private Boolean sent;
+	
+	private Date sentAt;
+	
+	private String failureReason;
 
-    @NotEmpty(message = "{mobile.notempty}")
-    private String mobile;
-    
-    private Date createdAt;
-    
-    private boolean verified;
-    
-    private Date verifiedAt;
+	public Message(String sender, String receiver, String text, String template) {
+		this.sender = sender;
+		this.receiver = receiver;
+		this.text = text;
+	}
 
-	public Otp(String otp, String mobile, Date createdAt) {
-		this.otp = otp;
-		this.mobile = mobile;
-		this.createdAt = createdAt;
-	}    
 }

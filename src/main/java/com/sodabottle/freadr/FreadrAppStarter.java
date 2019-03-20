@@ -1,7 +1,5 @@
 package com.sodabottle.freadr;
 
-import com.sodabottle.freadr.utils.LogUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,13 +12,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.sodabottle.freadr.utils.LogUtil;
+
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.bravoscore.backend")
+@EnableJpaRepositories(basePackages = "com.sodabottle.freadr")
 @EnableTransactionManagement
 @EnableAsync
 @EnableJpaAuditing
 @EnableCaching
-@ComponentScan(basePackages = "com.bravoscore.backend")
+@ComponentScan(basePackages = "com.sodabottle.freadr")
 @Slf4j
 public class FreadrAppStarter {
 

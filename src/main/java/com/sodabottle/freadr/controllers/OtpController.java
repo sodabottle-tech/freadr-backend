@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sodabottle.freadr.request.OtpRequest;
 import com.sodabottle.freadr.request.VerifyOtpRequest;
 import com.sodabottle.freadr.response.BaseResponse;
-import com.sodabottle.freadr.response.OtpResponse;
 import com.sodabottle.freadr.services.OtpService;
 import com.sodabottle.freadr.utils.AppUrls;
 import com.sodabottle.freadr.utils.GenericResponseUtils;
@@ -31,7 +30,7 @@ public class OtpController {
 	@PostMapping(AppUrls.OTP)
     public ResponseEntity generateOtp(@Valid @RequestBody OtpRequest otpRequest) {
 		
-		OtpResponse response  = otpService.generateOtp(otpRequest);
+		BaseResponse response  = otpService.generateOtp(otpRequest);
 		LogUtil.logMessage(ResponseMessages.OTP_GENERATED_SUCCESSFULY, null, log);
         return GenericResponseUtils.getStandardResponse(response, HttpStatus.OK);
     }
