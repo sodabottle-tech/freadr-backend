@@ -15,11 +15,11 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Audited
-public class Message {
+public class MessageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotEmpty
     private String sender;
@@ -40,7 +40,7 @@ public class Message {
 
     private String failureReason;
 
-    public Message(String sender, String receiver, String text, String template) {
+    public MessageEntity(String sender, String receiver, String text, String template) {
         this.sender = sender;
         this.receiver = receiver;
         this.text = text;

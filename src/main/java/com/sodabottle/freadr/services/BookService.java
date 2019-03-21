@@ -1,20 +1,20 @@
 package com.sodabottle.freadr.services;
 
-import com.sodabottle.freadr.models.Book;
+import com.sodabottle.freadr.models.BookEntity;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Set;
 
 public interface BookService {
-    Book getById(@Param("id") Integer id);
+    BookEntity getById(@Param("id") Long id);
 
-    Set<Book> getByIds(@Param("ids") Set<Integer> ids);
+    Set<BookEntity> getByIds(@Param("ids") Set<Long> ids);
 
-    Book create(Book event);
+    BookEntity create(BookEntity event);
 
-    Book update(Book event);
+    BookEntity update(BookEntity event);
 
-    boolean deleteById(@Param("id") Integer id);
+    boolean deleteById(@Param("id") Long id);
 
-    boolean deleteByIds(@Param("ids") Set<Integer> ids);
+    boolean deleteByIds(@Param("ids") Set<Long> ids);
 }

@@ -35,42 +35,42 @@ public class Way2SMSManager {
         }
 
         StringBuilder content = null;
-        try {
-            // construct data
-            JSONObject urlParameters = new JSONObject();
-            urlParameters.put("apikey", way2SmsConfig.get("apiKey"));
-            urlParameters.put("secret", way2SmsConfig.get("secretKey"));
-            urlParameters.put("usetype", way2SmsConfig.get("useType"));
-            urlParameters.put("phone", number);
-            urlParameters.put("message", URLEncoder.encode(message, "UTF-8"));
-            urlParameters.put("senderid", way2SmsConfig.get("senderId"));
-
-            URL obj = new URL(url + "/api/v1/sendCampaign");
-            // send data
-            HttpURLConnection httpConnection = (HttpURLConnection) obj.openConnection();
-            httpConnection.setDoOutput(true);
-            httpConnection.setRequestMethod("POST");
-            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
-            wr.write(urlParameters.toString().getBytes());
-            // get the response
-            BufferedReader bufferedReader = null;
-            if (httpConnection.getResponseCode() == 200) {
-                bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-            } else {
-                bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getErrorStream()));
-            }
-            content = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            bufferedReader.close();
-        } catch (Exception ex) {
-            System.out.println("Exception at:" + ex);
-            LogUtil.logErrorMessage(content.toString(), null, log);
-
-            return content.toString();
-        }
+//        try {
+//            // construct data
+//            JSONObject urlParameters = new JSONObject();
+//            urlParameters.put("apikey", way2SmsConfig.get("apiKey"));
+//            urlParameters.put("secret", way2SmsConfig.get("secretKey"));
+//            urlParameters.put("usetype", way2SmsConfig.get("useType"));
+//            urlParameters.put("phone", number);
+//            urlParameters.put("message", URLEncoder.encode(message, "UTF-8"));
+//            urlParameters.put("senderid", way2SmsConfig.get("senderId"));
+//
+//            URL obj = new URL(url + "/api/v1/sendCampaign");
+//            // send data
+//            HttpURLConnection httpConnection = (HttpURLConnection) obj.openConnection();
+//            httpConnection.setDoOutput(true);
+//            httpConnection.setRequestMethod("POST");
+//            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+//            wr.write(urlParameters.toString().getBytes());
+//            // get the response
+//            BufferedReader bufferedReader = null;
+//            if (httpConnection.getResponseCode() == 200) {
+//                bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+//            } else {
+//                bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getErrorStream()));
+//            }
+//            content = new StringBuilder();
+//            String line;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                content.append(line).append("\n");
+//            }
+//            bufferedReader.close();
+//        } catch (Exception ex) {
+//            System.out.println("Exception at:" + ex);
+//            LogUtil.logErrorMessage(content.toString(), null, log);
+//
+//            return content.toString();
+//        }
 
         LogUtil.logMessage(content.toString(), null, log);
         return content.toString();

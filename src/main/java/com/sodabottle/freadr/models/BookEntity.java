@@ -12,10 +12,10 @@ import javax.validation.constraints.NotEmpty;
 @Entity(name = "book")
 @Data
 @Audited
-public class Book {
+public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotEmpty(message = "{name.notempty}")
     private String name;
@@ -26,5 +26,11 @@ public class Book {
     private String popularQuotes;
 
     private boolean deleted;
+
+    private String thumbnailUrl;
+
+    private String author;
+
+    private String genre;
 
 }

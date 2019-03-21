@@ -11,11 +11,11 @@ import javax.validation.constraints.NotEmpty;
 @Entity(name = "user")
 @Data
 @Audited
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "type", nullable = false)
     private UserType userType;

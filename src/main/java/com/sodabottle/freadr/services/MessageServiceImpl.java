@@ -1,6 +1,6 @@
 package com.sodabottle.freadr.services;
 
-import com.sodabottle.freadr.models.Message;
+import com.sodabottle.freadr.models.MessageEntity;
 import com.sodabottle.freadr.repositories.MessageRepo;
 import com.sodabottle.freadr.request.MessageRequest;
 import com.sodabottle.freadr.services.helpers.Way2SMSManager;
@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
         String dynamicMessage = String.format(staticMessage, (Object[]) messageRequest.getParams());
 
         //save messages in DB
-        Message message = messageRepo.save(new Message(messageRequest.getSender(), messageRequest.getRecipient(), dynamicMessage, "OTP"));
+        MessageEntity message = messageRepo.save(new MessageEntity(messageRequest.getSender(), messageRequest.getRecipient(), dynamicMessage, "OTP"));
 
         //send service
         String response = way2SMSManager.send(messageRequest.getRecipient(), dynamicMessage);

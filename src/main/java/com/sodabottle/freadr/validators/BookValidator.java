@@ -1,13 +1,13 @@
 package com.sodabottle.freadr.validators;
 
 import com.sodabottle.freadr.exception.InvalidEntityException;
-import com.sodabottle.freadr.models.Book;
+import com.sodabottle.freadr.models.BookEntity;
 import com.sodabottle.freadr.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookValidator implements EntityValidator<Book> {
+public class BookValidator implements EntityValidator<BookEntity> {
 
     private BookService bookService;
 
@@ -17,10 +17,10 @@ public class BookValidator implements EntityValidator<Book> {
     }
 
     @Override
-    public Book validate(Long id) throws InvalidEntityException {
-        Book book = bookService.getById(id);
+    public BookEntity validate(Long id) throws InvalidEntityException {
+        BookEntity book = bookService.getById(id);
         if (null == book) {
-            throw InvalidEntityException.builder().code("INV_BOOK").message("Invalid Book ID").build();
+            //throw InvalidEntityException.builder().code("INV_BOOK").message("Invalid BookEntity ID").build();
         }
         return book;
     }

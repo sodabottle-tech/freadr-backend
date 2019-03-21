@@ -15,11 +15,11 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Audited
-public class Otp {
+public class OtpEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotEmpty(message = "{otp.notempty}")
     private String otp;
@@ -33,7 +33,7 @@ public class Otp {
 
     private Date verifiedAt;
 
-    public Otp(String otp, String mobile, Date createdAt) {
+    public OtpEntity(String otp, String mobile, Date createdAt) {
         this.otp = otp;
         this.mobile = mobile;
         this.createdAt = createdAt;

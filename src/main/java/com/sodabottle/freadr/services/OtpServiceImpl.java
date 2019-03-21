@@ -1,6 +1,6 @@
 package com.sodabottle.freadr.services;
 
-import com.sodabottle.freadr.models.Otp;
+import com.sodabottle.freadr.models.OtpEntity;
 import com.sodabottle.freadr.repositories.OtpRepo;
 import com.sodabottle.freadr.request.MessageRequest;
 import com.sodabottle.freadr.request.OtpRequest;
@@ -25,7 +25,7 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public String generateOtp(OtpRequest otpRequest) {
 
-        Otp otp = otpRepo.save(new Otp(String.valueOf(generateOTP()), otpRequest.getMobile(), new Date()));
+        OtpEntity otp = otpRepo.save(new OtpEntity(String.valueOf(generateOTP()), otpRequest.getMobile(), new Date()));
 
         messageService.sendMessage(new MessageRequest(RESTConstants.MESSAGE_SENDER, otp.getMobile(),
                 RESTConstants.MESSAGE_TEMPLATE, new String[]{otp.getOtp()}));
@@ -36,7 +36,7 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public boolean verfiyOtp(VerifyOtpRequest verifyOtpRequest) {
 
-        Otp otp = otpRepo.findTopOneByMobileAndVerifiedOrderByCreatedAtDesc(verifyOtpRequest.getMobile(), false);
+        OtpEntity otp = otpRepo.findTopOneByMobileAndVerifiedOrderByCreatedAtDesc(verifyOtpRequest.getMobile(), false);
         if (!verifyOtpRequest.getOtp().equals(otp.getOtp()))
             return false;
 

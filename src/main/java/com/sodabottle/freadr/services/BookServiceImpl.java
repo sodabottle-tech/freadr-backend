@@ -1,6 +1,6 @@
 package com.sodabottle.freadr.services;
 
-import com.sodabottle.freadr.models.Book;
+import com.sodabottle.freadr.models.BookEntity;
 import com.sodabottle.freadr.repositories.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,34 +14,33 @@ public class BookServiceImpl implements BookService {
     private BookRepo bookRepo;
 
     @Override
-    public Book getById(Integer id) {
+    public BookEntity getById(Long id) {
         return bookRepo.getOne(id);
     }
 
     @Override
-    public Set<Book> getByIds(Set<Integer> ids) {
+    public Set<BookEntity> getByIds(Set<Long> ids) {
         return null;
     }
 
     @Override
-    public Book create(Book event) {
+    public BookEntity create(BookEntity event) {
         return bookRepo.saveAndFlush(event);
     }
 
     @Override
-    public Book update(Book event) {
+    public BookEntity update(BookEntity event) {
         return bookRepo.save(event);
     }
 
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean deleteById(Long id) {
         bookRepo.deleteById(id);
         return true;
     }
 
     @Override
-    public boolean deleteByIds(Set<Integer> ids) {
-        //bookRepo.de;
+    public boolean deleteByIds(Set<Long> ids) {
         return false;
     }
 }

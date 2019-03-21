@@ -4,6 +4,7 @@ import com.sodabottle.freadr.utils.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.sodabottle.freadr")
+@EnableJpaRepositories(basePackages = "com.sodabottle.freadr.repositories")
+@EntityScan(basePackages = "com.sodabottle.freadr.models")
 @EnableTransactionManagement
 @EnableAsync
 @EnableJpaAuditing

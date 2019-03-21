@@ -1,10 +1,10 @@
 package com.sodabottle.freadr.exception;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@Builder
+@AllArgsConstructor
 public class InvalidEntityException extends Exception {
     private String code;
     private String message;
