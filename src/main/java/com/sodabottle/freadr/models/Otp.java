@@ -1,25 +1,23 @@
 package com.sodabottle.freadr.models;
 
-import java.util.Date;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.envers.Audited;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
 
 @Entity(name = "otp")
 @Data
 @NoArgsConstructor
 @Audited
 public class Otp {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -28,16 +26,16 @@ public class Otp {
 
     @NotEmpty(message = "{mobile.notempty}")
     private String mobile;
-    
+
     private Date createdAt;
-    
+
     private boolean verified;
-    
+
     private Date verifiedAt;
 
-	public Otp(String otp, String mobile, Date createdAt) {
-		this.otp = otp;
-		this.mobile = mobile;
-		this.createdAt = createdAt;
-	}    
+    public Otp(String otp, String mobile, Date createdAt) {
+        this.otp = otp;
+        this.mobile = mobile;
+        this.createdAt = createdAt;
+    }
 }
