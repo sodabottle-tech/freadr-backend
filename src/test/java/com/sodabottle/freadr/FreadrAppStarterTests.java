@@ -1,4 +1,4 @@
-package com.bravoscore.backend;
+package com.sodabottle.freadr;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
