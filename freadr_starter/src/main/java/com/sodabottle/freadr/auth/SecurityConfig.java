@@ -30,9 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/auth/refresh").permitAll()
+                .antMatchers("/reg/user").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/freadr/admin/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/v1/freadr/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/freadr/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

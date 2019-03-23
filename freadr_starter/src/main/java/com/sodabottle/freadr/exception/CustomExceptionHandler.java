@@ -1,5 +1,7 @@
 package com.sodabottle.freadr.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(new ErrorResponse("Record Not Found", details), HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    public final ResponseEntity<Object> handleUnAuthorizedException(UnAuthorizedException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+        return new ResponseEntity(new ErrorResponse("Unauthorized Access", details), HttpStatus.UNAUTHORIZED);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -41,6 +51,23 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(new ErrorResponse("Our Library is Crowded and we're trying to accommodate everyone! " +
                 "Just give us some time!! We'll be back with more space and love soon!!!", details),
                 HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public final ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        return new ResponseEntity(new ErrorResponse("ExpiredJwtException", details),
+                HttpStatus.EXPECTATION_FAILED);
+    }
+
+
+    @ExceptionHandler(SignatureException.class)
+    public final ResponseEntity<Object> handleSignatureException(SignatureException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        return new ResponseEntity(new ErrorResponse("SignatureException", details),
+                HttpStatus.UNAUTHORIZED);
     }
 
 }

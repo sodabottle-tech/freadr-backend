@@ -2,7 +2,6 @@ package com.sodabottle.freadr.auth;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,11 +17,8 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${security.jwt.token.secret-key:JWT_secret}")
-    private String secretKey = "JWT_secret";
-
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
+    private String secretKey = "ATA_BWI_FREADR_secret";
+    private long validityInMilliseconds = 1000 * 60; // 10d
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -69,14 +65,25 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) throws InvalidJwtAuthenticationException {
+        Jws<Claims> claims = null;
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            if (claims.getBody().getExpiration().before(new Date())) {
-                return false;
-            }
-            return true;
+            claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
             throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");
         }
+
+        if (claims.getBody().getExpiration().before(new Date())) {
+            return false;
+        }
+        return true;
+    }
+
+    public String validateExpiredAndGetUserId(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            return String.valueOf(e.getClaims().get("sub"));
+        }
+        return null;
     }
 }

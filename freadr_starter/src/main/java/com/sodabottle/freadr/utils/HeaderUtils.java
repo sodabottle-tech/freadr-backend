@@ -18,4 +18,8 @@ public class HeaderUtils {
         String userIdStr = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(headers.getFirst("Authorization")));
         return Long.valueOf(userIdStr);
     }
+
+    public static String getToken(HttpHeaders headers) {
+        return jwtTokenProvider.resolveToken(headers.getFirst("Authorization"));
+    }
 }

@@ -23,20 +23,23 @@ import java.util.Set;
 @Slf4j
 @RequestMapping("/swap")
 public class SwapRequestController {
+    private JwtTokenProvider jwtTokenProvider;
     private SwapRequestValidator swapRequestValidator;
     private SwapRequestService swapRequestService;
     private GenericRequestValidator genericRequestValidator;
 
     @Autowired
-    public SwapRequestController(SwapRequestValidator swapRequestValidator,
+    public SwapRequestController(JwtTokenProvider jwtTokenProvider, SwapRequestValidator swapRequestValidator,
                                  GenericRequestValidator genericRequestValidator, SwapRequestService swapRequestService) {
+        this.jwtTokenProvider = jwtTokenProvider;
         this.swapRequestValidator = swapRequestValidator;
         this.genericRequestValidator = genericRequestValidator;
         this.swapRequestService = swapRequestService;
     }
 
     @PostMapping
-    public ResponseEntity<Object> createSwapRequest(@RequestHeader HttpHeaders httpHeaders, @RequestBody SwapRequest swapRequest) throws InvalidEntityException {
+    public ResponseEntity<Object> createSwapRequest(@RequestHeader HttpHeaders httpHeaders,
+                                                    @RequestBody SwapRequest swapRequest) throws InvalidEntityException {
         SwapRequest validatedSwapRequest = swapRequestValidator.validate(swapRequest);
 
         Long userId = HeaderUtils.getUserId(httpHeaders);
@@ -49,8 +52,9 @@ public class SwapRequestController {
     }
 
     @PutMapping("/{swapId}")
-    public ResponseEntity<Object> updateSwapRequest(@PathVariable("swapId") Long swapId,
-                                                    @RequestHeader HttpHeaders httpHeaders, @RequestBody SwapRequest swapRequest) throws InvalidEntityException {
+    public ResponseEntity<Object> updateSwapRequest(@RequestHeader HttpHeaders httpHeaders,
+                                                    @PathVariable("swapId") Long swapId,
+                                                    @RequestBody SwapRequest swapRequest) throws InvalidEntityException {
         SwapRequest validatedSwapRequest = swapRequestValidator.validate(swapRequest);
 
         Long userId = HeaderUtils.getUserId(httpHeaders);
@@ -62,9 +66,6 @@ public class SwapRequestController {
         //TODO : Form Response
         return new ResponseEntity<>(swapRequestEntity, HttpStatus.OK);
     }
-
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
 
     @GetMapping
     public ResponseEntity<Object> getSwapRequests(@RequestHeader HttpHeaders httpHeaders,

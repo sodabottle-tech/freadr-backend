@@ -1,6 +1,10 @@
 package com.sodabottle.freadr.validators;
 
 import com.sodabottle.freadr.enums.SwapGetType;
+import com.sodabottle.freadr.exception.UnAuthorizedException;
+import com.sodabottle.freadr.utils.ExceptionUtils;
+import com.sodabottle.freadr.utils.HeaderUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -21,5 +25,13 @@ public class GenericRequestValidator {
         }
 
         return validatedTypes;
+    }
+
+
+    public static void validateAuthorization(final Long userIdRP, final HttpHeaders httpHeaders) throws UnAuthorizedException {
+        Long userId = HeaderUtils.getUserId(httpHeaders);
+        if (!userIdRP.equals(userId)) {
+            ExceptionUtils.getUnAuthorizedException(ExceptionUtils.UNAUTHORIZED_ACCESS, ExceptionUtils.UNAUTHORIZED_ACCESS);
+        }
     }
 }

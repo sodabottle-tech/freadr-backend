@@ -4,8 +4,7 @@ import java.util.Optional;
 
 public enum UserType {
     ADMIN(1),
-    USER(2),
-    ARTIST(3);
+    USER(2);
 
     private Integer value;
 

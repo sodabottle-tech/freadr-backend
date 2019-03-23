@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -22,7 +23,7 @@ import java.util.Date;
                 @Index(name = "idx_to_user_id", columnList = "to_user_id"),
                 @Index(name = "idx_deleted", columnList = "deleted"),
                 @Index(name = "idx_status", columnList = "status")})
-public class SwapRequestEntity {
+public class SwapRequestEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

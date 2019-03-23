@@ -9,13 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "otp")
 @Data
 @NoArgsConstructor
 @Audited
-public class OtpEntity {
+public class OtpEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
