@@ -22,7 +22,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <start-class>com.sodabottle.freadr.FreadrAppStarter</start-class>
+        <!--<start-class>com.sodabottle.freadr.FreadrAppStarter</start-class>-->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
         <freadr.version>1.0-SNAPSHOT</freadr.version>
