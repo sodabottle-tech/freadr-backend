@@ -77,7 +77,6 @@ public class LogUtil {
     }
 
     private static void logMessage(final String parsedMessage, final Logger logger, final LogState state) {
-        String finalParsedPatternMessage = null;
         switch (state) {
             case ERROR:
                 logger.error(String.format(STANDARD_LOG_PATTERN, LOG_ERROR_PATTERN, parsedMessage, LOG_ERROR_PATTERN));

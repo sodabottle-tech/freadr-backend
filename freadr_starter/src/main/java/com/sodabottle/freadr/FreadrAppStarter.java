@@ -40,5 +40,4 @@ public class FreadrAppStarter {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-
 }
