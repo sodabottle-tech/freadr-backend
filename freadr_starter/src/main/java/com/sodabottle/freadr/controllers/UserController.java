@@ -4,7 +4,7 @@ import com.sodabottle.freadr.auth.AuthService;
 import com.sodabottle.freadr.exception.InvalidEntityException;
 import com.sodabottle.freadr.exception.UnAuthorizedException;
 import com.sodabottle.freadr.models.UserEntity;
-import com.sodabottle.freadr.request.UserRegistrationRequest;
+import com.sodabottle.freadr.request.UserRequest;
 import com.sodabottle.freadr.response.RegistrationResponse;
 import com.sodabottle.freadr.response.UserResponse;
 import com.sodabottle.freadr.services.UserService;
@@ -33,10 +33,10 @@ public class UserController {
     }
 
     // NOTE : Authentication Skipped
-    @PostMapping("/reg/user")
-    public ResponseEntity createUserProfile(@Valid @RequestBody final UserRegistrationRequest userRegistrationRequest)
+    @PostMapping(AppUrls.USER_REG)
+    public ResponseEntity createUserProfile(@Valid @RequestBody final UserRequest userRequest)
             throws InvalidEntityException {
-        UserEntity userEntity = userService.createUser(userRegistrationRequest);
+        UserEntity userEntity = userService.createUser(userRequest);
         String token = authService.createToken(String.valueOf(userEntity.getId()));
 
         UserResponse userResponse = ModelMapperUtils.map(userEntity, UserResponse.class).get();
@@ -44,7 +44,7 @@ public class UserController {
         return GenericResponseUtils.getStandardResponse(registrationResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping(AppUrls.USER + "/{userId}")
+    @GetMapping(AppUrls.UPDATE_USER)
     public ResponseEntity getUserProfile(@PathVariable("userId") Long userIdRP, @RequestHeader HttpHeaders httpHeaders)
             throws UnAuthorizedException {
         GenericRequestValidator.validateAuthorization(userIdRP, httpHeaders);
@@ -54,11 +54,16 @@ public class UserController {
         return GenericResponseUtils.getStandardResponse(userResponse, HttpStatus.OK);
     }
 
-    @PutMapping
-    @PatchMapping(AppUrls.USER + "/{userId}")
-    public ResponseEntity updateUserProfile(@NotNull @PathVariable("userId") Long userIdRP, @RequestHeader HttpHeaders httpHeaders) throws UnAuthorizedException {
+    @PutMapping(AppUrls.UPDATE_USER)
+    @PatchMapping(AppUrls.UPDATE_USER)
+    public ResponseEntity updateUserProfile(@NotNull @PathVariable("userId") Long userIdRP, @RequestHeader HttpHeaders httpHeaders,
+                                            @Valid @RequestBody final UserRequest userRequest)
+            throws UnAuthorizedException, InvalidEntityException {
         GenericRequestValidator.validateAuthorization(userIdRP, httpHeaders);
-        return GenericResponseUtils.getStandardResponse(null, HttpStatus.OK);
-    }
 
+        userRequest.setUserId(userIdRP);
+        UserEntity userEntity = userService.updateUser(userRequest);
+        UserResponse userResponse = ModelMapperUtils.map(userEntity, UserResponse.class).get();
+        return GenericResponseUtils.getStandardResponse(userResponse, HttpStatus.OK);
+    }
 }

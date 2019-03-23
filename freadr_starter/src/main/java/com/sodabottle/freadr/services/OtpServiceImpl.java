@@ -1,12 +1,17 @@
 package com.sodabottle.freadr.services;
 
+import com.sodabottle.freadr.enums.LogActivity;
+import com.sodabottle.freadr.enums.Verb;
 import com.sodabottle.freadr.models.OtpEntity;
 import com.sodabottle.freadr.repositories.OtpRepo;
 import com.sodabottle.freadr.request.MessageRequest;
 import com.sodabottle.freadr.request.OtpRequest;
 import com.sodabottle.freadr.request.VerifyOtpRequest;
+import com.sodabottle.freadr.utils.AppUrls;
 import com.sodabottle.freadr.utils.RESTConstants;
 import com.sodabottle.freadr.utils.ResponseMessages;
+import com.sodabottle.logs.model.LogStoreRequest;
+import com.sodabottle.logs.service.LogStoreService;
 import com.sodabottle.utils.RandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,24 +22,32 @@ import java.util.Date;
 public class OtpServiceImpl implements OtpService {
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @Autowired
-    OtpRepo otpRepo;
+    private OtpRepo otpRepo;
+
+    @Autowired
+    private LogStoreService logStoreService;
 
     @Override
-    public String generateOtp(OtpRequest otpRequest) {
+    public String generateOtp(final OtpRequest otpRequest) {
 
         OtpEntity otp = otpRepo.save(new OtpEntity(String.valueOf(generateOTP()), otpRequest.getMobile(), new Date()));
 
         messageService.sendMessage(new MessageRequest(RESTConstants.MESSAGE_SENDER, otp.getMobile(),
                 RESTConstants.MESSAGE_TEMPLATE, new String[]{otp.getOtp()}));
 
+        logStoreService.logRequest(LogStoreRequest.builder().
+                activity(LogActivity.GENERATE_OTP.name()).
+                httpVerb(Verb.POST.name()).requestTS(new Date()).url(AppUrls.OTP).
+                userId(otpRequest.getUserId().toString()).build());
+
         return ResponseMessages.OTP_GENERATED_SUCCESSFULY;
     }
 
     @Override
-    public boolean verfiyOtp(VerifyOtpRequest verifyOtpRequest) {
+    public boolean verfiyOtp(final VerifyOtpRequest verifyOtpRequest) {
 
         OtpEntity otp = otpRepo.findTopOneByMobileAndVerifiedOrderByCreatedAtDesc(verifyOtpRequest.getMobile(), false);
         if (!verifyOtpRequest.getOtp().equals(otp.getOtp()))
@@ -44,6 +57,12 @@ public class OtpServiceImpl implements OtpService {
         otp.setVerifiedAt(new Date());
         //save the OTP as verified
         otpRepo.save(otp);
+
+        logStoreService.logRequest(LogStoreRequest.builder().
+                activity(LogActivity.VERIFY_OTP.name()).
+                httpVerb(Verb.POST.name()).requestTS(new Date()).url(AppUrls.OTP_VERIFY).
+                userId(verifyOtpRequest.getUserId().toString()).build());
+
         return true;
     }
 

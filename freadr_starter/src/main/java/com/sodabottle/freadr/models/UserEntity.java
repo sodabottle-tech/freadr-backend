@@ -1,5 +1,6 @@
 package com.sodabottle.freadr.models;
 
+import com.sodabottle.freadr.enums.Gender;
 import com.sodabottle.freadr.enums.UserType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class UserEntity implements Serializable {
     @Column(name = "type", nullable = false)
     private UserType userType;
 
-    //@NotEmpty(message = "{firstName.notempty}")
+    @NotEmpty(message = "{firstName.notempty}")
     private String firstName;
 
     //@NotEmpty(message = "{lastName.notempty}")
@@ -39,9 +40,14 @@ public class UserEntity implements Serializable {
     @Column(name = "external_id", nullable = false, unique = true)
     private String externalId;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @Column(name = "external_profile_url")
     private String externalProfileUrl;
 
     @Column(name = "external_token")
     private String externalToken;
+
+    private boolean deleted;
 }

@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "com.sodabottle")
 @EntityScan(basePackages = "com.sodabottle")
 @ComponentScan(basePackages = "com.sodabottle")
-
 public class FreadrAppStarter {
 
     public static void main(String[] args) {

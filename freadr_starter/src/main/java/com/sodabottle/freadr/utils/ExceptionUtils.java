@@ -7,6 +7,7 @@ public class ExceptionUtils {
     public static final String MM_PARSE_ERROR = "MM_PARSE_ERROR";
     public static final String DUPLICATE_USER = "DUPLICATE_USER";
     public static final String UNAUTHORIZED_ACCESS = "UNAUTHORIZED_ACCESS";
+    public static final String INVALID_ENTITY = "INVALID_ENTITY";
 
     public static void getInvalidEntityException(String code, String message) throws InvalidEntityException {
         throw new InvalidEntityException(code, message);
