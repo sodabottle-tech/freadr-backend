@@ -1,5 +1,6 @@
 package com.sodabottle.freadr.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sodabottle.freadr.enums.Gender;
 import com.sodabottle.freadr.enums.UserType;
 import lombok.Data;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "user")
 @Data
@@ -50,4 +53,8 @@ public class UserEntity implements Serializable {
     private String externalToken;
 
     private boolean deleted;
+
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<UserBookEntity> useBooks = new ArrayList<UserBookEntity>();
 }

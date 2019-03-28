@@ -12,6 +12,7 @@ import com.sodabottle.freadr.models.BookEntity;
 @RepositoryRestResource(exported = false)
 public interface BookRepo extends JpaRepository<BookEntity, Long> {
 
-	@Query(nativeQuery = true, value = "SELECT b.* FROM book b INNER JOIN user_book ub ON b.id = ub.book_id WHERE ub.user_id = :userId")
+	@Query(nativeQuery = true, value = "SELECT b.* FROM book b "
+			+ "INNER JOIN user_book ub ON b.id = ub.book_id WHERE ub.user_id = :userId")
 	List<BookEntity> findByUserId(@Param("userId") Long userId);
 }
