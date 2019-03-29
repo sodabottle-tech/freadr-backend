@@ -12,4 +12,5 @@ public class AppUrls {
 
     public static final String USER_REG = "/reg/user";
     public static final String UPDATE_USER = AppUrls.USER + "/{userId}";
+    public static final String UPDATE_USER_LOCATION = AppUrls.USER + "/{userId}/location";
 }

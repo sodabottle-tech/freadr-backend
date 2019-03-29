@@ -53,6 +53,12 @@ public class UserEntity implements Serializable {
     private String externalToken;
 
     private boolean deleted;
+    
+    private Double latitude;
+    
+    private Double longitude;
+    
+    private String location;
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     @JsonManagedReference

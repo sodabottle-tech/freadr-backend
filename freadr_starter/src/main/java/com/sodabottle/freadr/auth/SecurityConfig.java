@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/refresh").permitAll()
                 .antMatchers("/reg/user").permitAll()
+                .antMatchers("/otp", "/otp/verify").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/freadr/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/freadr/**").permitAll()
                 .anyRequest().authenticated()
