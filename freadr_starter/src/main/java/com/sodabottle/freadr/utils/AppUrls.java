@@ -2,6 +2,7 @@ package com.sodabottle.freadr.utils;
 
 public class AppUrls {
     public static final String USER = "/user";
+    public static final String USERS_ID_BOOKS = "/users/{user-id}/books";
 
     public static final String OTP = "/otp";
     public static final String OTP_VERIFY = "/otp/verify";
@@ -11,4 +12,5 @@ public class AppUrls {
 
     public static final String USER_REG = "/reg/user";
     public static final String UPDATE_USER = AppUrls.USER + "/{userId}";
+    public static final String UPDATE_USER_LOCATION = AppUrls.USER + "/{userId}/location";
 }

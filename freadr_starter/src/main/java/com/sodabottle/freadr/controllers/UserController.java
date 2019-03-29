@@ -4,8 +4,10 @@ import com.sodabottle.freadr.auth.AuthService;
 import com.sodabottle.freadr.exception.InvalidEntityException;
 import com.sodabottle.freadr.exception.UnAuthorizedException;
 import com.sodabottle.freadr.models.UserEntity;
+import com.sodabottle.freadr.request.UserLocationRequest;
 import com.sodabottle.freadr.request.UserRequest;
 import com.sodabottle.freadr.response.RegistrationResponse;
+import com.sodabottle.freadr.response.UserLocationResponse;
 import com.sodabottle.freadr.response.UserResponse;
 import com.sodabottle.freadr.services.UserService;
 import com.sodabottle.freadr.utils.AppUrls;
@@ -65,5 +67,17 @@ public class UserController {
         UserEntity userEntity = userService.updateUser(userRequest);
         UserResponse userResponse = ModelMapperUtils.map(userEntity, UserResponse.class).get();
         return GenericResponseUtils.getStandardResponse(userResponse, HttpStatus.OK);
+    }
+    
+    @PostMapping(AppUrls.UPDATE_USER_LOCATION)
+    public ResponseEntity updateUserLocation(@NotNull @PathVariable("userId") Long userIdRP, @RequestHeader HttpHeaders httpHeaders,
+                                            @Valid @RequestBody final UserLocationRequest locationRequest)
+            throws UnAuthorizedException, InvalidEntityException {
+        GenericRequestValidator.validateAuthorization(userIdRP, httpHeaders);
+
+        locationRequest.setUserId(userIdRP);
+        UserEntity userEntity = userService.updateUserLocation(locationRequest);
+        UserLocationResponse userLocationResponse = ModelMapperUtils.map(userEntity, UserLocationResponse.class).get();
+        return GenericResponseUtils.getStandardResponse(userLocationResponse, HttpStatus.OK);
     }
 }

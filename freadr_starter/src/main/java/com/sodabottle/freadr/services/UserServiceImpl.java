@@ -7,6 +7,7 @@ import com.sodabottle.freadr.enums.Verb;
 import com.sodabottle.freadr.exception.InvalidEntityException;
 import com.sodabottle.freadr.models.UserEntity;
 import com.sodabottle.freadr.repositories.UserRepo;
+import com.sodabottle.freadr.request.UserLocationRequest;
 import com.sodabottle.freadr.request.UserRequest;
 import com.sodabottle.freadr.utils.AppUrls;
 import com.sodabottle.freadr.utils.ExceptionUtils;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 @Service
 @Slf4j
@@ -131,4 +134,24 @@ public class UserServiceImpl implements UserService {
             ExceptionUtils.getInvalidEntityException(ExceptionUtils.DUPLICATE_USER, "Duplicate User! A User with the same externalId exists ");
         }
     }
+
+	@Override
+	public UserEntity updateUserLocation(@Valid UserLocationRequest locationRequest) throws InvalidEntityException {
+		UserEntity userEntity = validateAndGetUser(locationRequest.getUserId());
+		
+		userEntity.setLatitude(locationRequest.getLatitude());
+		userEntity.setLongitude(locationRequest.getLongitude());
+		userEntity.setLocation(locationRequest.getLocation());
+		
+        UserEntity userEntityEditedDb = userRepo.saveAndFlush(userEntity);
+
+        LogUtil.logMessage(" Updated User Location for User ID %s",
+                new String[]{String.valueOf(userEntityEditedDb.getId())}, log);
+
+        logStoreService.logRequest(LogStoreRequest.builder().
+                activity(LogActivity.UPDATE_USER_LOCATION.name()).
+                httpVerb(Verb.POST.name()).requestTS(new Date()).url(AppUrls.UPDATE_USER_LOCATION).
+                userId(locationRequest.getUserId().toString()).build());
+		return userEntityEditedDb;
+	}
 }
